@@ -20,24 +20,29 @@ Inspirado no [Pookify](https://github.com/eyadhammouda/pookify), mas na menu bar
 └──────────────────────────────┘
 ```
 
-## Instalação
+## Instalação (uma linha)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/dougzeu/dd-claudeusage/main/bootstrap.sh | bash
+```
+
+O instalador cuida de tudo, nesta ordem:
+
+1. **Python 3** — se faltar, dispara a instalação do Command Line Tools (você clica "Instalar" na janela).
+2. **Claude Code** — *obrigatório* (o app mede o uso dele). Se não estiver instalado, instala automaticamente.
+3. Baixa o projeto, cria o venv, o app da barra de menu (`~/Applications/dd-claudeusage.app`, que o Spotlight acha pelo nome) e o LaunchAgent pra abrir no login.
+4. **Pede o token** no final: roda `claude setup-token` (abre o navegador → login → imprime `sk-ant-oat01-...`), você cola de volta. Isso liga o **% oficial do plano** (igual ao `/usage`). Tecle **Enter** pra pular → o app roda em **modo custo estimado ($)**.
+
+> Reinstalar/atualizar: rode a mesma linha de novo — o `.token` é preservado.
+
+<details><summary>Instalar manualmente (dev)</summary>
 
 ```bash
 git clone https://github.com/dougzeu/dd-claudeusage.git
-cd dd-claudeusage
-./install.sh
+cd dd-claudeusage && ./install.sh
+claude setup-token && pbpaste > .token   # opcional, pro % do plano
 ```
-
-O `install.sh` faz tudo: venv + dependências, o app da barra de menu (`~/Applications/dd-claudeusage.app`, que o Spotlight acha pelo nome) e o LaunchAgent pra abrir no login.
-
-Depois, pro **% oficial do plano** (o mesmo do `/usage`), gere seu token do Claude Code:
-
-```bash
-claude setup-token          # gera um token OAuth (sk-ant-oat01-...)
-pbpaste > .token            # cola a saída no arquivo .token
-```
-
-Sem token, o app roda mesmo assim no **modo ccusage** (custo estimado em $).
+</details>
 
 ## Abrir / fechar / reabrir
 

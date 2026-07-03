@@ -73,9 +73,10 @@ def _fmt_tok(n):
 # ---------------------------------------------------------------------------
 def _claude_token():
     """Token OAuth do Claude Code. Env > ~/dd-claudeusage/.token > config.h do tokenmeter."""
-    t = os.environ.get("CLAUDE_CODE_TOKEN")
-    if t:
-        return t.strip()
+    for var in ("CLAUDE_CODE_OAUTH_TOKEN", "CLAUDE_CODE_TOKEN"):  # 1º é o nome oficial
+        t = os.environ.get(var)
+        if t:
+            return t.strip()
     if os.path.exists(TOKEN_FILE):
         t = open(TOKEN_FILE, encoding="utf-8").read().strip()
         if t:
