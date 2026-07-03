@@ -62,9 +62,10 @@ O ✳ aparece na barra de menu. Clique pra ver os detalhes.
 
 Na ordem: variável de ambiente `CLAUDE_CODE_TOKEN` → arquivo `.token` → (fallback pessoal do autor, ignore). Cada pessoa usa o **próprio** token — ele fica só na sua máquina e **nunca** vai pro git (`.token` está no `.gitignore`).
 
-## Abrir sozinho no login (opcional)
+## Abrir sozinho no login
 
-Cria um LaunchAgent apontando pro seu venv:
+Cria um LaunchAgent apontando pro seu venv. O `KeepAlive` com `SuccessfulExit=false`
+faz o app **relançar se crashar**, mas respeitar quando você clica **Sair** no menu.
 
 ```bash
 DIR="$(pwd)"
@@ -76,13 +77,19 @@ cat > ~/Library/LaunchAgents/com.usageisland.plist <<PLIST
   <key>ProgramArguments</key>
   <array><string>$DIR/.venv/bin/python</string><string>$DIR/usage_island.py</string></array>
   <key>RunAtLoad</key><true/>
-  <key>KeepAlive</key><true/>
+  <key>KeepAlive</key><dict><key>SuccessfulExit</key><false/></dict>
+  <key>StandardOutPath</key><string>$DIR/island.log</string>
+  <key>StandardErrorPath</key><string>$DIR/island.log</string>
 </dict></plist>
 PLIST
-launchctl load ~/Library/LaunchAgents/com.usageisland.plist
+launchctl load -w ~/Library/LaunchAgents/com.usageisland.plist
 ```
 
-Pra desligar: `launchctl unload ~/Library/LaunchAgents/com.usageisland.plist`.
+| Ação | Comando |
+|---|---|
+| Reabrir depois de clicar "Sair" | `launchctl start com.usageisland` |
+| Desligar de vez (não abrir no login) | `launchctl unload ~/Library/LaunchAgents/com.usageisland.plist` |
+| Religar | `launchctl load -w ~/Library/LaunchAgents/com.usageisland.plist` |
 
 ## Configuração
 
