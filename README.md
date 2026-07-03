@@ -1,5 +1,7 @@
 <img src="assets/appicon.png" width="112" align="right" alt="ícone">
 
+<br><br>
+
 # dd-claudeusage
 
 Um app pra **Mac** que mostra, lá no topo da tela (na barra de menu), o quanto você já usou do **Claude Code** — a cota das **últimas 5 horas** e a da **semana**. Sempre à vista, sem precisar digitar `/usage`.
